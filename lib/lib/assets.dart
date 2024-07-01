@@ -3,10 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 late SharedPreferences preferences;
 String? _account;
-String? get account{
+String? get myAccount{
   return _account;
 }
-set account(String? account){
+set myAccount(String? account){
   if(account==null){
     preferences.remove(ACCOUNT_Str);
   }else{

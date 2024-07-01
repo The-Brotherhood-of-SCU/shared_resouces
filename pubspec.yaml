@@ -34,6 +34,8 @@ dependencies:
   async:
   shared_preferences:
   flutter_star:
+  dio:
+  file_selector:
   flutter:
     sdk: flutter
 

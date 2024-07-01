@@ -9,7 +9,7 @@ void main() {
   var prefs = SharedPreferences.getInstance();
   prefs.then((value) {
     preferences=value;
-    account=value.getString(ACCOUNT_Str);
+    myAccount=value.getString(ACCOUNT_Str);
     runApp(const MyApp());
   });
 }
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple,brightness: Brightness.dark),
       useMaterial3: true,
     ),
-      home: account==null? const LoginPage():const Main(),
+      home: myAccount==null? const LoginPage():const Main(),
     );
   }
 }
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.all(8.0),
                 child:ElevatedButton(onPressed: ()async{
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder){
-                    account=controller.text;
+                    myAccount=controller.text;
                     return Main();
                   }));
                 }, child: const Text("Login"),),

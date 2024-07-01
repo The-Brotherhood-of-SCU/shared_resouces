@@ -55,7 +55,7 @@ class UserUploads extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoadFilesPage("/user/$account/files");
+    return LoadFilesPage("/user/${Uri.encodeFull(account)}/files");
   }
 }
 class UserComments extends StatelessWidget {
@@ -64,7 +64,7 @@ class UserComments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoadCommentPage("/user/$account/comments");
+    return LoadCommentPage("/user/${Uri.encodeFull(account)}/comments");
   }
 }
 
