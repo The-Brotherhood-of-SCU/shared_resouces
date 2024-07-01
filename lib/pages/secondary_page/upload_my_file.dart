@@ -54,6 +54,7 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                   await showInfoDialog(context: context,content: "资料不完善，无法提交");
                   return;
                 }
+
                 UploadResources(details: detailC.text, fileName: fileNameC.text, filePath: filePath!, uploader: myAccount!);
               }, child: Text("Upload",textScaler: TextScaler.linear(1.1),style: TextStyle(color: Colors.red),)),
             )
