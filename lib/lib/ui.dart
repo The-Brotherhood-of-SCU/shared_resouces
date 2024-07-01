@@ -223,7 +223,7 @@ class FileDetail {
   late final DateTime uploadTime;
   final double rating;
   final int ratingNumber;
-  final String uploader;
+  final String? uploader;
 
   FileDetail({
     required this.details,
@@ -233,7 +233,7 @@ class FileDetail {
     required int uploadTime,
     required this.rating,
     required this.ratingNumber,
-    required this.uploader,
+    this.uploader,
     this.kcm,
     this.kch,
   }) {
@@ -383,7 +383,7 @@ class _LoadCommentPageState extends State<LoadCommentPage> {
       }
       comments=snapshot.data!;
       if(comments.isEmpty){
-        return Center(child: Text("暂无消息"),);
+        return Center(child: Text("暂无"),);
       }
       var children=<Widget>[];
       for(var i in comments){
@@ -419,7 +419,7 @@ class _LoadFilesPageState extends State<LoadFilesPage> {
       }
       files=snapshot.data!;
       if(files.isEmpty){
-        return Center(child: Text("暂无消息"),);
+        return Center(child: Text("暂无"),);
       }
       var children=<Widget>[];
       for(var i in files){

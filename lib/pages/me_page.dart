@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_resource/lib/assets.dart';
+import 'package:shared_resource/lib/ui.dart';
 import 'package:shared_resource/pages/secondary_page/personal_page.dart';
 import 'package:shared_resource/pages/secondary_page/test.dart';
+import 'package:shared_resource/pages/secondary_page/upload_my_file.dart';
 
 import '../main.dart';
 
@@ -32,7 +34,7 @@ class _MePageState extends State<MePage> {
                     padding: const EdgeInsets.fromLTRB(0,20,0,10),
                     child: Icon(Icons.account_circle,size: 100,),
                   ),
-                  Text(account!,textScaler: TextScaler.linear(1.5),)
+                  Text(myAccount!,textScaler: TextScaler.linear(1.5),)
                 ],
               ),
             ),
@@ -43,12 +45,13 @@ class _MePageState extends State<MePage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              buttonWithPadding("My Personal Page", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return PersonalPage(account: account!,);}));}),
+              buttonWithPadding("My Personal Page", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return PersonalPage(account: myAccount!,);}));}),
               //buttonWithPadding("My Comments", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return MyComments();}));}),
               buttonWithPadding("Test", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return TestPage();}));}),
               buttonWithPadding("设置个性化推荐数据", (){showInterestEditPopup(context);}),
+              buttonWithPadding("Upload My File", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return UploadMyFilePage();}));}),
               redButtonWithPadding("Logout", (){
-                account=null;
+                myAccount=null;
                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder){
                   return const LoginPage();
                 }));
@@ -98,7 +101,16 @@ void showInterestEditPopup(BuildContext context){
           ),
           TextButton(
             child: const Text('确认'),
-            onPressed: () {
+            onPressed: () async{
+              try{
+                if(interestController.text.isEmpty){
+                  throw Exception();
+                }
+                preferences.setInt(GRADES_Str, int.parse(gradesController.text));
+                preferences.setString(INTEREST_Str, interestController.text);
+              }catch(e){
+                await showInfoDialog(context: builder,title: "Error",content: "输入有误");
+              }
               Navigator.of(context).pop(); // 关闭对话框
             },
           ),

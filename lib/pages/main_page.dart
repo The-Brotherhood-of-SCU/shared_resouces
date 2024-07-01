@@ -14,9 +14,9 @@ class _MainState extends State<Main> {
   final List<BottomNavigationBarItem> bottomNavItems = [
     BottomNavigationBarItem(
       //backgroundColor: Colors.blue,
-      icon: Icon(Icons.home_outlined),
-      label: ("首页"),
-      activeIcon: Icon(Icons.home)
+      icon: Icon(Icons.search_outlined),
+      label: ("Search"),
+      activeIcon: Icon(Icons.search)
     ),
     BottomNavigationBarItem(
       //backgroundColor: Colors.green,
@@ -33,7 +33,7 @@ class _MainState extends State<Main> {
   ];
 
   final pages = [HomePage(), ForYouPage(), MePage(), ];
-  int currentIndex=0;
+  int currentIndex=1;
   /*切换页面*/
   void _changePage(int index) {
     /*如果点击的导航项不是当前项  切换 */
