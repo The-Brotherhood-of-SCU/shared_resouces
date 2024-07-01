@@ -44,6 +44,7 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                     fileNameC.text=fileNameOrigin??"";
                   }
                 });
+
               }, child: Text(fileNameOrigin??"Choose a File")),
             ),
             Padding(
