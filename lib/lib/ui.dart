@@ -42,11 +42,10 @@ Future showLoadingDialog(
     void Function()? onError}) {
   ContextWrapper contextWrapper = ContextWrapper();
   var future = func().then((v) {
-    Future.delayed(const Duration(milliseconds: 100)).then((value) {
-      if (contextWrapper.context != null) {
-        Navigator.pop(contextWrapper.context!);
-      }
-    });
+    //await Future.delayed(const Duration(milliseconds: 5));
+    if (contextWrapper.context != null) {
+      Navigator.pop(contextWrapper.context!);
+    }
   }).onError((error, stackTrace) {
     //await Future.delayed(const Duration(microseconds: 5000));
     if (contextWrapper.context != null) {
