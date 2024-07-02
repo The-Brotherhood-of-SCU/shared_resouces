@@ -1,3 +1,5 @@
+
+
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_resource/lib/assets.dart';
@@ -13,6 +15,7 @@ class UploadMyFilePage extends StatefulWidget {
 
 class _UploadMyFilePageState extends State<UploadMyFilePage> {
   String? filePath;
+  String? suffix;
   String? fileNameOrigin;
   TextEditingController kcmC=TextEditingController();
   TextEditingController kchC=TextEditingController();
@@ -35,15 +38,24 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
               padding: const EdgeInsets.all(15.0),
               child: OutlinedButton(onPressed: ()async{
                 const XTypeGroup typeGroup = XTypeGroup();
-                final XFile? file =
-                    await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
-                setState(() {
-                  filePath=file?.path;
-                  fileNameOrigin=file?.name;
-                  if(fileNameC.text.isEmpty){
-                    fileNameC.text=fileNameOrigin??"";
+                final XFile? file =await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
+
+                fileNameOrigin=file?.name;
+                if(fileNameC.text.isEmpty && fileNameOrigin!=null){
+                  var dotIndex=fileNameOrigin!.lastIndexOf(".");
+                  if(dotIndex==-1){
+                    await showInfoDialog(context: context,title: "Error",content: "文件没有后缀名");
+                    return;
                   }
-                });
+                  filePath=file?.path;
+                  suffix=fileNameOrigin!.substring(dotIndex);
+                  var nameWithoutSuffix=fileNameOrigin!.substring(0,dotIndex);
+                  setState(() {
+                    fileNameC.text=nameWithoutSuffix;
+                  });
+
+                  }
+
 
               }, child: Text(fileNameOrigin??"Choose a File")),
             ),
@@ -52,12 +64,12 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
               child: ElevatedButton(onPressed: ()async{
                 bool done=false;
                 //check
-                if(filePath==null|| filePath!.isEmpty||fileNameC.text.isEmpty||detailC.text.isEmpty){
+                if(filePath==null|| filePath!.isEmpty||fileNameC.text.isEmpty||detailC.text.isEmpty||suffix==null||suffix!.isEmpty){
                   await showInfoDialog(context: context,title: "Warn",content: "资料不完善，无法提交");
                   return;
                 }
                 await showLoadingDialog(context: context, func: ()async{
-                  await UploadResources(details: detailC.text, fileName: fileNameC.text, filePath: filePath!, uploader: myAccount!);
+                  await UploadResources(details: detailC.text, fileName: fileNameC.text+suffix!, filePath: filePath!, uploader: myAccount!);
                   done=true;
 
                 },
