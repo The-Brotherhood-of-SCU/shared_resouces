@@ -19,18 +19,28 @@ Future<Response> httpPostWithForm(String uri,Map<String,dynamic> parameter)async
   return response;
 }
 Future<Response> UploadResources({String? kcm,String? kch,required String details,
-  required String fileName,required String filePath,required String uploader})async{
+  required String fileName,required String filePath,required String uploader,void Function(double rate)? progress})async{
+
 
   final formData=FormData.fromMap({
     "kcm":kcm,
     "kch":kch,
     "details":details,
     "file_name":fileName,
-    "file":await MultipartFile.fromFile(filePath),
+    "file":await MultipartFile.fromFile(filePath,filename: fileName),
     "uploader":uploader
 
   });
-  return await dio.post("$base/upload",data: formData);
+/*  BaseOptions options = BaseOptions();
+  options.contentType="multipart/form-data; boundary=${formData.boundary}";
+  Dio dio=Dio(options);*/
+  return await dio.post("$base/upload",data: formData,onSendProgress: (send,total){
+    if(progress==null){
+      return;
+    }
+    var num=send/total;
+    progress(num);
+  });
 }
 
 Future<String> httpGet(String uri) async {

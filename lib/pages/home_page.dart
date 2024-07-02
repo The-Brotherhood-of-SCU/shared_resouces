@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           url==null?Center(child: Text("键入关键词以搜索"),):
-          SingleChildScrollView(child: LoadFilesPage("/search/$url")),
+          LoadFilesPage("/search/$url"),
         ],
       ),
     );

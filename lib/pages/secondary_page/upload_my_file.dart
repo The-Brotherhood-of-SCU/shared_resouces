@@ -50,18 +50,28 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: ElevatedButton(onPressed: ()async{
+                bool done=false;
                 //check
                 if(filePath==null|| filePath!.isEmpty||fileNameC.text.isEmpty||detailC.text.isEmpty){
                   await showInfoDialog(context: context,content: "资料不完善，无法提交");
                   return;
                 }
-                showLoadingDialog(context: context, func: ()async{
-                  return await UploadResources(details: detailC.text, fileName: fileNameC.text, filePath: filePath!, uploader: myAccount!);
+                await showLoadingDialog(context: context, func: ()async{
+                  await UploadResources(details: detailC.text, fileName: fileNameC.text, filePath: filePath!, uploader: myAccount!);
+                  done=true;
+
                 },
                 onError: ()async{
                   await showInfoDialog(context: context,title: "Error",content: "An error occurred");
                 },title: "Uploading"
                 );
+                if(done){
+                  if(context.mounted){
+                    await showInfoDialog(context: context,title: "Success!");
+                    Navigator.of(context).pop();
+                  }
+
+                }
               }, child: Text("Upload",textScaler: TextScaler.linear(1.1),style: TextStyle(color: Colors.red),)),
             )
           ],
