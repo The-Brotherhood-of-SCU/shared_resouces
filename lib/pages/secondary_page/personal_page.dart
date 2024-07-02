@@ -64,7 +64,7 @@ class UserComments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoadCommentPage("/user/${Uri.encodeFull(account)}/comments");
+    return LoadCommentPage("/user/${Uri.encodeFull(account)}/comments",isShowFilePage: true,);
   }
 }
 

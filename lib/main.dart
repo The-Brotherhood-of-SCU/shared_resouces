@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_resource/lib/ui.dart';
 import 'package:shared_resource/pages/main_page.dart';
 
 import 'lib/assets.dart';
@@ -71,6 +72,10 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child:ElevatedButton(onPressed: ()async{
+                  if(controller.text.trim().isEmpty){
+                    showInfoDialog(context: context,title: "Warn",content: "不能为空");
+                    return;
+                  }
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder){
                     myAccount=controller.text;
                     return Main();

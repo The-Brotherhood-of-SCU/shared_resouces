@@ -30,7 +30,7 @@ Future<Response> UploadResources({String? kcm,String? kch,required String detail
     "uploader":uploader
 
   });
-  return await dio.post(base+"/upload",data: formData);
+  return await dio.post("$base/upload",data: formData);
 }
 
 Future<String> httpGet(String uri) async {
@@ -44,20 +44,28 @@ Future<List<FileDetail>> getFileDetails(String url)async{
   var l=<FileDetail>[];
   var result=await httpGetJson(url);
   for(var i in result){
-    var f=FileDetail(
-        kch: i["kch"],
-        kcm: i["kcm"],
-        details: i["details"],
-        fileName: i["file_name"],
-        fileSize: i["file_size"],
-        filePointer: i["file_pointer"],
-        uploadTime: i["upload_time"],
-        rating: toDouble(i["rating"]),
-        ratingNumber: i["rating_number"],
-        uploader: i["uploader"]);
+    var f=toFileDetail(i);
     l.add(f);
   }
   return l;
+}
+Future<FileDetail> getOneFileDetail(String url)async{
+  var result=await httpGetJson(url);
+  return toFileDetail(result);
+}
+FileDetail toFileDetail(dynamic fileDetailMap){
+  var i =fileDetailMap;
+  return FileDetail(
+      kch: i["kch"],
+      kcm: i["kcm"],
+      details: i["details"],
+      fileName: i["file_name"],
+      fileSize: i["file_size"],
+      filePointer: i["file_pointer"],
+      uploadTime: i["upload_time"],
+      rating: toDouble(i["rating"]),
+      ratingNumber: i["rating_number"],
+      uploader: i["uploader"]);
 }
 double toDouble(dynamic num){
   if(num is int){
@@ -70,6 +78,7 @@ Future<List<CommentDetail>> getCommentDetails(String url)async{
   var result=await httpGetJson(url);
   for(var i in result){
     l.add(CommentDetail(
+      fileName: i["file_name"],
         account: i["account"],
         filePointer: i["file_pointer"],
         timestamp: i["timestamp"],

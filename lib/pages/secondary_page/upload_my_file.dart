@@ -21,7 +21,7 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Upload My File"),),
+      appBar: AppBar(title: const Text("Upload My File"),),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -55,8 +55,13 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                   await showInfoDialog(context: context,content: "资料不完善，无法提交");
                   return;
                 }
-
-                UploadResources(details: detailC.text, fileName: fileNameC.text, filePath: filePath!, uploader: myAccount!);
+                showLoadingDialog(context: context, func: ()async{
+                  return await UploadResources(details: detailC.text, fileName: fileNameC.text, filePath: filePath!, uploader: myAccount!);
+                },
+                onError: ()async{
+                  await showInfoDialog(context: context,title: "Error",content: "An error occurred");
+                },title: "Uploading"
+                );
               }, child: Text("Upload",textScaler: TextScaler.linear(1.1),style: TextStyle(color: Colors.red),)),
             )
           ],

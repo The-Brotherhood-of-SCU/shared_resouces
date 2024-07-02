@@ -247,11 +247,13 @@ class CommentDetail {
   late final DateTime timestamp;
   final String text;
   final double rating;
+  final String? fileName;
 
   CommentDetail(
       {required this.account,
       required this.filePointer,
       required int timestamp,
+      required this.fileName,
       required this.text,
       required this.rating}) {
     this.timestamp = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
@@ -269,7 +271,9 @@ class FileDetailCard extends StatefulWidget {
   @override
   State<FileDetailCard> createState() => _FileDetailCardState();
 }
+
 final DateFormat dateFormat = DateFormat("y-M-d");
+
 class _FileDetailCardState extends State<FileDetailCard> {
   late FileDetail fileDetail;
 
@@ -278,8 +282,6 @@ class _FileDetailCardState extends State<FileDetailCard> {
     super.initState();
     fileDetail = widget.fileDetail;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -327,8 +329,9 @@ String getFileSizeStr(int byte) {
 
 class CommentDetailCard extends StatelessWidget {
   final CommentDetail detail;
+  final void Function()? onTap;
 
-  const CommentDetailCard(this.detail, {super.key});
+  const CommentDetailCard(this.detail, {super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -342,28 +345,34 @@ class CommentDetailCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(),
+                Text(detail.fileName ?? ""),
                 Text(dateFormat.format(detail.timestamp))
               ],
             )
           ],
         ),
         onTap: (context) {
-          Navigator.of(context).push(CupertinoPageRoute(builder: (builder) {
-            return PersonalPage(account: detail.account);
-          }));
+          if (onTap == null) {
+            Navigator.of(context).push(CupertinoPageRoute(builder: (builder) {
+              return PersonalPage(account: detail.account);
+            }));
+          } else {
+            onTap!();
+          }
         },
         icon: StarScore(
           score: detail.rating,
           star: Star(
-              fillColor: Colors.yellow,
-              emptyColor: Colors.grey.withAlpha(88)),
+              fillColor: Colors.yellow, emptyColor: Colors.grey.withAlpha(88)),
         ));
   }
 }
+
 class LoadCommentPage extends StatefulWidget {
   final String url;
-  const LoadCommentPage(this.url,{super.key});
+  final bool isShowFilePage;
+
+  const LoadCommentPage(this.url, {super.key, this.isShowFilePage = false});
 
   @override
   State<LoadCommentPage> createState() => _LoadCommentPageState();
@@ -371,35 +380,69 @@ class LoadCommentPage extends StatefulWidget {
 
 class _LoadCommentPageState extends State<LoadCommentPage> {
   late List<CommentDetail> comments;
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: getCommentDetails(widget.url), builder:(context,snapshot){
-      if(snapshot.connectionState == ConnectionState.waiting){
-        return loading();
-      }
-      if(snapshot.hasError){
-        return Center(child: ElevatedButton(onPressed: () {setState(() {});},
-        child: Text("An error occurred, press to reload"),),);
-      }
-      comments=snapshot.data!;
-      if(comments.isEmpty){
-        return Center(child: Text("暂无"),);
-      }
-      var children=<Widget>[];
-      for(var i in comments){
-        children.add(CommentDetailCard(i));
-      }
-      return SingleChildScrollView(
-        child: Column(
-          children: children,
-        ),
-      );
-    });
+    return FutureBuilder(
+        future: getCommentDetails(widget.url),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return loading();
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {});
+                },
+                child: Text("An error occurred, press to reload"),
+              ),
+            );
+          }
+          comments = snapshot.data!;
+          if (comments.isEmpty) {
+            return Center(
+              child: Text("暂无"),
+            );
+          }
+          var children = <Widget>[];
+          for (var i in comments) {
+            children.add(CommentDetailCard(
+              i,
+              onTap: widget.isShowFilePage
+                  ? () async {
+                      FileDetail? fileDetail;
+                      await showLoadingDialog(
+                          context: context,
+                          func: () async {
+                            fileDetail = await getOneFileDetail(
+                                "/file_detail/${i.filePointer}");
+                          },onError: (){
+                            showInfoDialog(context: context,title: "Error");
+                      });
+                      if(fileDetail!=null){
+                        Navigator.of(context)
+                            .push(CupertinoPageRoute(builder: (builder) {
+                          return FileDetailPage(fileDetail!);
+                        }));
+                      }
+                    }
+                  : null,
+            ));
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: children,
+            ),
+          );
+        });
   }
 }
+
 class LoadFilesPage extends StatefulWidget {
   final String url;
-  const LoadFilesPage(this.url,{super.key});
+
+  const LoadFilesPage(this.url, {super.key});
 
   @override
   State<LoadFilesPage> createState() => _LoadFilesPageState();
@@ -407,32 +450,40 @@ class LoadFilesPage extends StatefulWidget {
 
 class _LoadFilesPageState extends State<LoadFilesPage> {
   late List<FileDetail> files;
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: getFileDetails(widget.url), builder: (context,snapshot){
-      if(snapshot.connectionState==ConnectionState.waiting){
-        return loading();
-      }
-      if(snapshot.hasError){
-        return Center(child: ElevatedButton(onPressed: () {setState(() {});},
-          child: Text("An error occurred, press to reload"),),);
-      }
-      files=snapshot.data!;
-      if(files.isEmpty){
-        return Center(child: Text("暂无"),);
-      }
-      var children=<Widget>[];
-      for(var i in files){
-        children.add(FileDetailCard(i));
-      }
-      return SingleChildScrollView(
-        child: Column(
-          children: children,
-        ),
-      );
-
-    });
+    return FutureBuilder(
+        future: getFileDetails(widget.url),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return loading();
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {});
+                },
+                child: Text("An error occurred, press to reload"),
+              ),
+            );
+          }
+          files = snapshot.data!;
+          if (files.isEmpty) {
+            return Center(
+              child: Text("暂无"),
+            );
+          }
+          var children = <Widget>[];
+          for (var i in files) {
+            children.add(FileDetailCard(i));
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: children,
+            ),
+          );
+        });
   }
 }
-
-
