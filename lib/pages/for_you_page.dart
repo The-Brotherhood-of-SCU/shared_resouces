@@ -15,7 +15,7 @@ class _ForYouPageState extends State<ForYouPage> {
     var grades=preferences.getInt(GRADES_Str);
     var interest=preferences.getString(INTEREST_Str);
     if(grades==null||interest==null){
-      return Center(child: Text("请先在Me选项卡中设置个性化推荐信息"));
+      return const Center(child: Text("请先在Me选项卡中设置个性化推荐信息"));
     }else{
       return LoadFilesPage("/recommend?keyword=${Uri.encodeFull(interest)}&grades=${grades/100}");
     }

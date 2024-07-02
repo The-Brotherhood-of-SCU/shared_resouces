@@ -30,10 +30,10 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextField(controller: fileNameC,decoration: InputDecoration(labelText: "文件名",icon: Icon(Icons.file_copy)),),
-            TextField(controller:kcmC,decoration: InputDecoration(labelText: "课程名(可选)",icon: Icon(Icons.book)),),
-            TextField(controller:kchC,decoration: InputDecoration(labelText: "课程号(可选)",icon: Icon(Icons.numbers)),),
-            TextField(controller:detailC,decoration: InputDecoration(labelText: "详细信息",icon: Icon(Icons.details)),),
+            TextField(controller: fileNameC,decoration: const InputDecoration(labelText: "文件名",icon: Icon(Icons.file_copy)),),
+            TextField(controller:kcmC,decoration: const InputDecoration(labelText: "课程名(可选)",icon: Icon(Icons.book)),),
+            TextField(controller:kchC,decoration: const InputDecoration(labelText: "课程号(可选)",icon: Icon(Icons.numbers)),),
+            TextField(controller:detailC,decoration: const InputDecoration(labelText: "详细信息",icon: Icon(Icons.details)),),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: OutlinedButton(onPressed: ()async{
@@ -84,7 +84,7 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                   }
 
                 }
-              }, child: Text("Upload",textScaler: TextScaler.linear(1.1),style: TextStyle(color: Colors.red),)),
+              }, child: const Text("Upload",textScaler: TextScaler.linear(1.1),style: TextStyle(color: Colors.red),)),
             )
           ],
         ),

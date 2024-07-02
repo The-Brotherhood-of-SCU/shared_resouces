@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_resource/lib/assets.dart';
 import 'package:shared_resource/lib/ui.dart';
 import 'package:shared_resource/pages/secondary_page/personal_page.dart';
-import 'package:shared_resource/pages/secondary_page/test.dart';
 import 'package:shared_resource/pages/secondary_page/upload_my_file.dart';
 
 import '../main.dart';
@@ -31,11 +30,11 @@ class _MePageState extends State<MePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0,20,0,10),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(0,20,0,10),
                       child: Icon(Icons.account_circle,size: 100,),
                     ),
-                    Text(myAccount!,textScaler: TextScaler.linear(1.5),)
+                    Text(myAccount!,textScaler: const TextScaler.linear(1.5),)
                   ],
                 ),
               ),
@@ -47,9 +46,9 @@ class _MePageState extends State<MePage> {
               children: [
                 buttonWithPadding("My Personal Page", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return PersonalPage(account: myAccount!,);}));}),
                 //buttonWithPadding("My Comments", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return MyComments();}));}),
-                buttonWithPadding("Test", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return TestPage();}));}),
+                //buttonWithPadding("Test", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return TestPage();}));}),
                 buttonWithPadding("设置个性化推荐数据", (){showInterestEditPopup(context);}),
-                buttonWithPadding("上传我的资料", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return UploadMyFilePage();}));}),
+                buttonWithPadding("上传我的资料", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return const UploadMyFilePage();}));}),
                 redButtonWithPadding("Logout", (){
                   myAccount=null;
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder){
@@ -67,7 +66,7 @@ class _MePageState extends State<MePage> {
   Widget redButtonWithPadding(String text,void Function() f){
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: TextButton(onPressed: f, child: Text(text,style: TextStyle(color: Colors.red),)),
+      child: TextButton(onPressed: f, child: Text(text,style: const TextStyle(color: Colors.red),)),
     );
   }
   Widget buttonWithPadding(String text,void Function() f){
@@ -84,13 +83,13 @@ void showInterestEditPopup(BuildContext context){
   final TextEditingController gradesController=TextEditingController(text: grades0?.toString());
   showDialog(context: context, builder: (builder){
       return AlertDialog(
-        title: Text("设置个性化推荐数据"),
+        title: const Text("设置个性化推荐数据"),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextField(controller: interestController,decoration: InputDecoration(icon: Icon(Icons.text_fields),labelText: "兴趣方向"),),
-            TextField(controller: gradesController,decoration: InputDecoration(icon: Icon(Icons.text_increase),labelText: "这方面的成绩（0-100）"))
+            TextField(controller: interestController,decoration: const InputDecoration(icon: Icon(Icons.text_fields),labelText: "兴趣方向"),),
+            TextField(controller: gradesController,decoration: const InputDecoration(icon: Icon(Icons.text_increase),labelText: "这方面的成绩（0-100）"))
           ],
         ),
         actions:  <Widget>[

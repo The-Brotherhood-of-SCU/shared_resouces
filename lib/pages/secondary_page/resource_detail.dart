@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -36,11 +35,11 @@ class FileDetailPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0,20,0,10),
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(0,20,0,10),
                             child: Icon(Icons.file_copy,size: 100,),
                           ),
-                          Text(fileDetail.fileName,textScaler: TextScaler.linear(1.5),)
+                          Text(fileDetail.fileName,textScaler: const TextScaler.linear(1.5),)
                         ],
                       ),
                     ),
@@ -65,7 +64,7 @@ class FileDetailPage extends StatelessWidget {
                 Center(
                   child: Builder(builder: (builder){
                     if(fileDetail.rating<0){
-                      return Text("暂无评分");
+                      return const Text("暂无评分");
                     }else{
                       return  Center(
                         child: Row(
@@ -78,7 +77,7 @@ class FileDetailPage extends StatelessWidget {
                                   emptyColor: Colors.grey.withAlpha(88)),
                               tail: Column(
                                 children: <Widget>[
-                                  Text("评分"),
+                                  const Text("评分"),
                                   Text(fileDetail.rating.toStringAsFixed(2)),
 
                                 ],
@@ -95,7 +94,7 @@ class FileDetailPage extends StatelessWidget {
                     }
                   }),
                 ),
-              icon: Text("点击查看评论"),
+              icon: const Text("点击查看评论"),
               onTap: (context){
                 Navigator.of(context).push(CupertinoModalPopupRoute(builder: (builder){
                   return _Comments("/comment/${fileDetail.filePointer}",fileDetail,);
@@ -124,8 +123,8 @@ class FileDetailPage extends StatelessWidget {
             ),
             commonCard(context: context,
                 title: "Download",
-                child: Text("Tap to download"),
-                icon: Icon(Icons.download),
+                child: const Text("Tap to download"),
+                icon: const Icon(Icons.download),
                 onTap: (context){
                   launchUrl(Uri.parse("$base/file/${fileDetail.filePointer}"));
                 })
@@ -160,16 +159,16 @@ class _CommentsState extends State<_Comments> {
       appBar: AppBar(title: const Text("Comments"),),
       body: LoadCommentPage(widget.url),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {
           showDialog(context: context,barrierDismissible:true,builder: (builder){
             return AlertDialog(
-              title: Text("Comment"),
+              title: const Text("Comment"),
               content: _CommentComponent(rating,(v){rating=v;},text,(v){text=v;}),
               actions: [
                 TextButton(onPressed: (){
                   Navigator.of(builder).pop();
-                }, child: Text("Cancel")),
+                }, child: const Text("Cancel")),
                 TextButton(onPressed: (){
                   //send rating
                   httpPost("/rate?file_pointer=${widget.fileDetail.filePointer}&rating=$rating");
@@ -246,7 +245,7 @@ class _CommentComponentState extends State<_CommentComponent> {
         ),
         TextField(
           controller: controller,
-          decoration: InputDecoration(icon: Icon(Icons.brush),hintText: "写评论"),
+          decoration: const InputDecoration(icon: Icon(Icons.brush),hintText: "写评论"),
           onChanged: widget.textSetter,
         )
 

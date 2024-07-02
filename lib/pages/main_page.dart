@@ -12,19 +12,19 @@ class Main extends StatefulWidget {
 
 class _MainState extends State<Main> {
   final List<BottomNavigationBarItem> bottomNavItems = [
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       //backgroundColor: Colors.blue,
       icon: Icon(Icons.search_outlined),
       label: ("Search"),
       activeIcon: Icon(Icons.search)
     ),
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       //backgroundColor: Colors.green,
       icon: Icon(Icons.star_outline),
       activeIcon: Icon(Icons.star),
       label: ("For You"),
     ),
-    BottomNavigationBarItem(
+    const BottomNavigationBarItem(
       //backgroundColor: Colors.amber,
       icon: Icon(Icons.account_circle_outlined),
       activeIcon: Icon(Icons.account_circle),
@@ -32,7 +32,7 @@ class _MainState extends State<Main> {
     ),
   ];
 
-  final pages = [HomePage(), ForYouPage(), MePage(), ];
+  final pages = [const HomePage(), const ForYouPage(), const MePage(), ];
   int currentIndex=1;
   /*切换页面*/
   void _changePage(int index) {
@@ -48,7 +48,7 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Shared Resources"),),
+      appBar: AppBar(title: const Text("Shared Resources"),),
       bottomNavigationBar: BottomNavigationBar(
         items: bottomNavItems,
         currentIndex: currentIndex,

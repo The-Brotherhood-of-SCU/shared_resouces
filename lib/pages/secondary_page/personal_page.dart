@@ -34,11 +34,11 @@ class _PersonalPageState extends State<PersonalPage>
       body: Scaffold(
         appBar: TabBar(
             controller: tabController,
-            tabs: [Padding(
-              padding: const EdgeInsets.all(14.0),
+            tabs: const [Padding(
+              padding: EdgeInsets.all(14.0),
               child: Text("Uploads"),
             ), Padding(
-              padding: const EdgeInsets.all(14.0),
+              padding: EdgeInsets.all(14.0),
               child: Text("Comments"),
             )]),
         body: TabBarView(

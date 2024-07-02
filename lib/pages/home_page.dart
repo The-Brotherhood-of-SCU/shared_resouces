@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
               padding: const EdgeInsets.all(13.0),
               child: SearchBar(controller: controller,
                 hintText: "Search ...",
-                trailing: [IconButton(icon: Icon(Icons.search),onPressed: (){
+                trailing: [IconButton(icon: const Icon(Icons.search),onPressed: (){
                   setState(() {
                     url=controller.text;
                   });
@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       
               ),
             ),
-            url==null?Center(child: Text("键入关键词以搜索"),):
+            url==null?const Center(child: Text("键入关键词以搜索"),):
             LoadFilesPage("/search/$url"),
           ],
         ),

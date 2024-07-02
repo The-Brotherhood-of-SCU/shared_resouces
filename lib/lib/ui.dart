@@ -355,7 +355,7 @@ class CommentDetailCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("File: "+(detail.fileName ?? "")),
+                Text("File: ${detail.fileName ?? ""}"),
                 Text(dateFormat.format(detail.timestamp))
               ],
             )
@@ -405,13 +405,13 @@ class _LoadCommentPageState extends State<LoadCommentPage> {
                 onPressed: () {
                   setState(() {});
                 },
-                child: Text("An error occurred, press to reload"),
+                child: const Text("An error occurred, press to reload"),
               ),
             );
           }
           comments = snapshot.data!;
           if (comments.isEmpty) {
-            return Center(
+            return const Center(
               child: Text("暂无"),
             );
           }
@@ -475,13 +475,13 @@ class _LoadFilesPageState extends State<LoadFilesPage> {
                 onPressed: () {
                   setState(() {});
                 },
-                child: Text("An error occurred, press to reload"),
+                child: const Text("An error occurred, press to reload"),
               ),
             );
           }
           files = snapshot.data!;
           if (files.isEmpty) {
-            return Center(
+            return const Center(
               child: Text("暂无"),
             );
           }
