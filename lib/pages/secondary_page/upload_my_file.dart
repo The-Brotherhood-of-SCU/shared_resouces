@@ -53,7 +53,7 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                 bool done=false;
                 //check
                 if(filePath==null|| filePath!.isEmpty||fileNameC.text.isEmpty||detailC.text.isEmpty){
-                  await showInfoDialog(context: context,content: "资料不完善，无法提交");
+                  await showInfoDialog(context: context,title: "Warn",content: "资料不完善，无法提交");
                   return;
                 }
                 await showLoadingDialog(context: context, func: ()async{

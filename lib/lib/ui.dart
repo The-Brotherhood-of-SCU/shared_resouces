@@ -240,9 +240,13 @@ class FileDetail {
     this.uploadTime = DateTime.fromMillisecondsSinceEpoch(uploadTime * 1000);
     if(kcm==null||kcm.isEmpty){
       this.kcm=null;
+    }else{
+      this.kcm=kcm;
     }
     if(kch==null||kch.isEmpty){
       this.kch=null;
+    }else{
+      this.kch=kch;
     }
   }
 }
@@ -485,10 +489,9 @@ class _LoadFilesPageState extends State<LoadFilesPage> {
           for (var i in files) {
             children.add(FileDetailCard(i));
           }
-          return SingleChildScrollView(
-            child: Column(
+          return Column(
               children: children,
-            ),
+
           );
         });
   }
