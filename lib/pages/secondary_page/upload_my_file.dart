@@ -30,17 +30,20 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextField(controller: fileNameC,decoration: const InputDecoration(labelText: "文件名",icon: Icon(Icons.file_copy)),),
+            TextField(controller: fileNameC,decoration: InputDecoration(labelText: filePath==null?"请先选择文件":"文件名",icon: Icon(Icons.file_copy)),readOnly: filePath==null,),
             TextField(controller:kcmC,decoration: const InputDecoration(labelText: "课程名(可选)",icon: Icon(Icons.book)),),
             TextField(controller:kchC,decoration: const InputDecoration(labelText: "课程号(可选)",icon: Icon(Icons.numbers)),),
-            TextField(controller:detailC,decoration: const InputDecoration(labelText: "详细信息",icon: Icon(Icons.details)),),
+            TextField(controller:detailC,decoration: const InputDecoration(labelText: "详细信息",icon: Icon(Icons.account_tree)),),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: OutlinedButton(onPressed: ()async{
                 const XTypeGroup typeGroup = XTypeGroup();
                 final XFile? file =await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
 
-                fileNameOrigin=file?.name;
+                setState(() {
+                  fileNameOrigin=file?.name;
+                });
+
                 if(fileNameOrigin!=null){
                   var dotIndex=fileNameOrigin!.lastIndexOf(".");
                   if(dotIndex==-1){
@@ -51,12 +54,11 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                   suffix=fileNameOrigin!.substring(dotIndex);
                   var nameWithoutSuffix=fileNameOrigin!.substring(0,dotIndex);
 
-                  if(fileNameC.text.isEmpty){
-                    setState(() {
-                      fileNameC.text=nameWithoutSuffix;
-                    });
+                  setState(() {
+                    fileNameC.text=nameWithoutSuffix;
+                  });
 
-                  }
+
 
 
                   }
@@ -89,7 +91,7 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                   }
 
                 }
-              }, child: const Text("Upload",textScaler: TextScaler.linear(1.1),style: TextStyle(color: Colors.red),)),
+              }, child: const Text("Upload",textScaler: TextScaler.linear(1.1),style: TextStyle(color: Colors.lightBlue),)),
             )
           ],
         ),
