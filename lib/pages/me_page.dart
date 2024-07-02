@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_resource/lib/assets.dart';
 import 'package:shared_resource/lib/ui.dart';
 import 'package:shared_resource/pages/secondary_page/personal_page.dart';
+import 'package:shared_resource/pages/secondary_page/updates.dart';
 import 'package:shared_resource/pages/secondary_page/upload_my_file.dart';
 
 import '../main.dart';
@@ -49,6 +50,7 @@ class _MePageState extends State<MePage> {
                 //buttonWithPadding("Test", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return TestPage();}));}),
                 buttonWithPadding("设置个性化推荐数据", (){showInterestEditPopup(context);}),
                 buttonWithPadding("上传我的资料", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return const UploadMyFilePage();}));}),
+                buttonWithPadding("Check Update", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return const CheckUpdates();}));}),
                 redButtonWithPadding("Logout", (){
                   myAccount=null;
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder){

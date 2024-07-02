@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_resource/lib/ui.dart';
+import 'package:shared_resource/lib/utils.dart';
 import 'package:shared_resource/pages/main_page.dart';
 
 import 'lib/assets.dart';
@@ -12,6 +14,9 @@ void main() {
     preferences=value;
     myAccount=value.getString(ACCOUNT_Str);
     runApp(const MyApp());
+  });
+  PackageInfo.fromPlatform().then((v){
+    currentVersion=v.version;
   });
 }
 

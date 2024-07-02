@@ -169,9 +169,9 @@ class _CommentsState extends State<_Comments> {
                 TextButton(onPressed: (){
                   Navigator.of(builder).pop();
                 }, child: const Text("Cancel")),
-                TextButton(onPressed: (){
+                TextButton(onPressed: ()async{
                   //send rating
-                  httpPost("/rate?file_pointer=${widget.fileDetail.filePointer}&rating=$rating");
+                  await httpPost("/rate?file_pointer=${widget.fileDetail.filePointer}&rating=$rating");
 
                   if(text.trim().isNotEmpty){
                     if (kDebugMode) {
@@ -183,8 +183,9 @@ class _CommentsState extends State<_Comments> {
                       "text":text,
                       "rating":rating
                     };
-                    httpPostWithForm("/comment", parameter);
+                    await httpPostWithForm("/comment", parameter);
                   }
+                  await Future.delayed(Duration(milliseconds: 20));
                   Navigator.of(builder).pop();
                   if(widget.onComment!=null){
                     widget.onComment!();

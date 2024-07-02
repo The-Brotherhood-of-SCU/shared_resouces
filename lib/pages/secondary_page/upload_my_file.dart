@@ -41,7 +41,7 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                 final XFile? file =await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
 
                 fileNameOrigin=file?.name;
-                if(fileNameC.text.isEmpty && fileNameOrigin!=null){
+                if(fileNameOrigin!=null){
                   var dotIndex=fileNameOrigin!.lastIndexOf(".");
                   if(dotIndex==-1){
                     await showInfoDialog(context: context,title: "Error",content: "文件没有后缀名");
@@ -50,9 +50,14 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                   filePath=file?.path;
                   suffix=fileNameOrigin!.substring(dotIndex);
                   var nameWithoutSuffix=fileNameOrigin!.substring(0,dotIndex);
-                  setState(() {
-                    fileNameC.text=nameWithoutSuffix;
-                  });
+
+                  if(fileNameC.text.isEmpty){
+                    setState(() {
+                      fileNameC.text=nameWithoutSuffix;
+                    });
+
+                  }
+
 
                   }
 

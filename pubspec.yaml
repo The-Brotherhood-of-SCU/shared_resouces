@@ -36,6 +36,7 @@ dependencies:
   flutter_star:
   dio:
   file_selector:
+  package_info_plus:
   flutter:
     sdk: flutter
 
