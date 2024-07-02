@@ -214,8 +214,8 @@ Widget loading() {
 }
 
 class FileDetail {
-  final String? kcm;
-  final String? kch;
+  late final String? kcm;
+  late final String? kch;
   final String details;
   final String fileName;
   final int fileSize;
@@ -234,10 +234,16 @@ class FileDetail {
     required this.rating,
     required this.ratingNumber,
     this.uploader,
-    this.kcm,
-    this.kch,
+    String? kcm,
+    String? kch,
   }) {
     this.uploadTime = DateTime.fromMillisecondsSinceEpoch(uploadTime * 1000);
+    if(kcm==null||kcm.isEmpty){
+      this.kcm=null;
+    }
+    if(kch==null||kch.isEmpty){
+      this.kch=null;
+    }
   }
 }
 
@@ -315,15 +321,15 @@ String getFileSizeStr(int byte) {
   if (byte < 1024) {
     return "$byte B";
   }
-  byte >> 10;
+  byte=byte >> 10;
   if (byte < 1024) {
     return "$byte KB";
   }
-  byte >> 10;
+  byte=byte >> 10;
   if (byte < 1024) {
     return "$byte MB";
   }
-  byte >> 10;
+  byte=byte >> 10;
   return "$byte GB";
 }
 
@@ -345,7 +351,7 @@ class CommentDetailCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(detail.fileName ?? ""),
+                Text("File: "+(detail.fileName ?? "")),
                 Text(dateFormat.format(detail.timestamp))
               ],
             )

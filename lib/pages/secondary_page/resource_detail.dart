@@ -98,7 +98,7 @@ class FileDetailPage extends StatelessWidget {
               icon: Text("点击查看评论"),
               onTap: (context){
                 Navigator.of(context).push(CupertinoModalPopupRoute(builder: (builder){
-                  return _Comments("/comment/${fileDetail.filePointer}",fileDetail);
+                  return _Comments("/comment/${fileDetail.filePointer}",fileDetail,);
                 }));
               }
 
@@ -138,7 +138,8 @@ class FileDetailPage extends StatelessWidget {
 class _Comments extends StatefulWidget {
   final FileDetail fileDetail;
   final String url;
-  const _Comments(this.url,this.fileDetail,{super.key});
+  final void Function()? onComment;
+  const _Comments(this.url,this.fileDetail,{super.key,this.onComment});
 
   @override
   State<_Comments> createState() => _CommentsState();
@@ -147,6 +148,11 @@ class _Comments extends StatefulWidget {
 class _CommentsState extends State<_Comments> {
   double rating=5;
   String text="";
+  void refresh(){
+    setState(() {
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -181,6 +187,11 @@ class _CommentsState extends State<_Comments> {
                     httpPostWithForm("/comment", parameter);
                   }
                   Navigator.of(builder).pop();
+                  if(widget.onComment!=null){
+                    widget.onComment!();
+                  }
+                  refresh();
+
                 }, child: const Text("Comment"))
               ],
             );
