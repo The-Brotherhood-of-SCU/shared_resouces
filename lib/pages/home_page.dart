@@ -13,6 +13,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   String? url;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
               ),
             ),
             url==null?const Center(child: Text("键入关键词以搜索"),):
-            LoadFilesPage("/search/$url"),
+            LoadFilesPage("/search/${Uri.encodeFull(url!)}"),
           ],
         ),
       ),
