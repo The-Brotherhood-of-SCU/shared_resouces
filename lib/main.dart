@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_resource/lib/ui.dart';
 import 'package:shared_resource/lib/utils.dart';
 import 'package:shared_resource/pages/main_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'lib/assets.dart';
 
@@ -25,7 +26,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Shared Resources',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -55,7 +58,8 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('共享资料'),
+        //title: Text('共享资料'),//before i18n
+          title: Text(AppLocalizations.of(context)!.shared_resources),//after i18n
       ),
       body: Center(
         child: Padding(
