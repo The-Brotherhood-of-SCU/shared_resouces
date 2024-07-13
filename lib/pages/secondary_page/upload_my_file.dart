@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_resource/lib/assets.dart';
 import 'package:shared_resource/lib/network.dart';
 import 'package:shared_resource/lib/ui.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class UploadMyFilePage extends StatefulWidget {
   const UploadMyFilePage({super.key});
 
@@ -24,16 +24,16 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Upload My File"),),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.upload_My_File),),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextField(controller: fileNameC,decoration: InputDecoration(labelText: filePath==null?"请先选择文件":"文件名",icon: Icon(Icons.file_copy)),readOnly: filePath==null,),
-            TextField(controller:kcmC,decoration: const InputDecoration(labelText: "课程名(可选)",icon: Icon(Icons.book)),),
-            TextField(controller:kchC,decoration: const InputDecoration(labelText: "课程号(可选)",icon: Icon(Icons.numbers)),),
-            TextField(controller:detailC,decoration: const InputDecoration(labelText: "详细信息",icon: Icon(Icons.account_tree)),),
+            TextField(controller: fileNameC,decoration: InputDecoration(labelText: filePath==null?AppLocalizations.of(context)!.choose_file:AppLocalizations.of(context)!.filename,icon: Icon(Icons.file_copy)),readOnly: filePath==null,),
+            TextField(controller:kcmC,decoration: InputDecoration(labelText: AppLocalizations.of(context)!.course_name,icon: Icon(Icons.book)),),
+            TextField(controller:kchC,decoration: InputDecoration(labelText: AppLocalizations.of(context)!.course_id,icon: Icon(Icons.numbers)),),
+            TextField(controller:detailC,decoration: InputDecoration(labelText: AppLocalizations.of(context)!.detail,icon: Icon(Icons.account_tree)),),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: OutlinedButton(onPressed: ()async{
@@ -47,7 +47,7 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                 if(fileNameOrigin!=null){
                   var dotIndex=fileNameOrigin!.lastIndexOf(".");
                   if(dotIndex==-1){
-                    await showInfoDialog(context: context,title: "Error",content: "文件没有后缀名");
+                    await showInfoDialog(context: context,title: AppLocalizations.of(context)!.error,content: AppLocalizations.of(context)!.suffix);
                     return;
                   }
                   filePath=file?.path;
@@ -64,7 +64,7 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                   }
 
 
-              }, child: Text(fileNameOrigin??"Choose a File")),
+              }, child: Text(fileNameOrigin??AppLocalizations.of(context)!.choose_a_file)),
             ),
             Padding(
               padding: const EdgeInsets.all(15.0),
@@ -72,7 +72,7 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
                 bool done=false;
                 //check
                 if(filePath==null|| filePath!.isEmpty||fileNameC.text.isEmpty||detailC.text.isEmpty||suffix==null||suffix!.isEmpty){
-                  await showInfoDialog(context: context,title: "Warn",content: "资料不完善，无法提交");
+                  await showInfoDialog(context: context,title: AppLocalizations.of(context)!.warn,content: AppLocalizations.of(context)!.not_complete);
                   return;
                 }
                 await showLoadingDialog(context: context, func: ()async{
@@ -81,17 +81,17 @@ class _UploadMyFilePageState extends State<UploadMyFilePage> {
 
                 },
                 onError: ()async{
-                  await showInfoDialog(context: context,title: "Error",content: "An error occurred");
-                },title: "Uploading"
+                  await showInfoDialog(context: context,title: AppLocalizations.of(context)!.error,content: AppLocalizations.of(context)!.error_occur);
+                },title: AppLocalizations.of(context)!.uploading
                 );
                 if(done){
                   if(context.mounted){
-                    await showInfoDialog(context: context,title: "Success!");
+                    await showInfoDialog(context: context,title: AppLocalizations.of(context)!.success);
                     Navigator.of(context).pop();
                   }
 
                 }
-              }, child: const Text("Upload",textScaler: TextScaler.linear(1.1),style: TextStyle(color: Colors.lightBlue),)),
+              }, child: Text(AppLocalizations.of(context)!.upload,textScaler: TextScaler.linear(1.1),style: TextStyle(color: Colors.lightBlue),)),
             )
           ],
         ),

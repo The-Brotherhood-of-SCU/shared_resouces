@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../lib/ui.dart';
 import '../../lib/utils.dart';
 
@@ -37,20 +37,20 @@ class _CheckUpdatesState extends State<CheckUpdates> {
     //isNewVersion=false;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Check Update"),
+        title: Text(AppLocalizations.of(context)!.check_update),
       ),
       body: kIsWeb
           ? Column(
               children: [
                 commonCard(
                     context: context,
-                    title: "Current Version",
+                    title: AppLocalizations.of(context)!.current_version,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Current Version $currentVersion"),
-                        const Text(
-                            "With Github Action, Web version is always the latest")
+                        Text(AppLocalizations.of(context)!.current_version+" $currentVersion"),
+                          Text(
+                              AppLocalizations.of(context)!.long)
                       ],
                     )),
               ],
@@ -60,11 +60,11 @@ class _CheckUpdatesState extends State<CheckUpdates> {
               children: [
                 commonCard(
                     context: context,
-                    title: "Current Version",
+                    title: AppLocalizations.of(context)!.current_version,
                     child: Text(currentVersion)),
                 commonCard(
                     context: context,
-                    title: "Latest Version",
+                    title: AppLocalizations.of(context)!.latest_version,
                     icon: isNewVersion && latestVersion != null
                         ? const Icon(Icons.arrow_circle_up_rounded)
                         : Container(),
@@ -75,7 +75,7 @@ class _CheckUpdatesState extends State<CheckUpdates> {
                       }
                     },
                     child: isError
-                        ? const Text("Failed to Load")
+                        ?  Text(AppLocalizations.of(context)!.failed_to_load)
                         : latestVersion == null
                             ? loading()
                             : isNewVersion
@@ -83,20 +83,20 @@ class _CheckUpdatesState extends State<CheckUpdates> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        "New Version Available!",
+                                       Text(
+                                        AppLocalizations.of(context)!.new_v,
                                         textScaler: TextScaler.linear(1.1),
                                       ),
-                                      Text("Latest Version $latestVersion"),
-                                      const Text("Click Here to Download")
+                                      Text(AppLocalizations.of(context)!.latest_version+" $latestVersion"),
+                                      Text(AppLocalizations.of(context)!.click_h)
                                     ],
                                   )
-                                : const Text("Current Version Is Up to Date")),
+                                : Text(AppLocalizations.of(context)!.up_to)),
                 ElevatedButton(
                     onPressed: () {
                       fetch();
                     },
-                    child: const Text("Check Update"))
+                    child: Text(AppLocalizations.of(context)!.check_update))
               ],
             ),
     );
@@ -110,7 +110,8 @@ class _CheckUpdatesState extends State<CheckUpdates> {
     try{
       var request = json.decode(await http.read(Uri.parse(uri)));
       setState(() {
-        latestVersion = request["tag_name"];
+        // latestVersion = request["tag_name"];
+        latestVersion = request[AppLocalizations.of(context)!.tag_name];
       });
     }catch(e){
       if (kDebugMode) {

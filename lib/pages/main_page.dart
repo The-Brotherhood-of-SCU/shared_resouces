@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_resource/pages/for_you_page.dart';
 import 'package:shared_resource/pages/home_page.dart';
 import 'package:shared_resource/pages/me_page.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class Main extends StatefulWidget {
   const Main({super.key});
 
@@ -11,26 +11,12 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  final List<BottomNavigationBarItem> bottomNavItems = [
-    const BottomNavigationBarItem(
-      //backgroundColor: Colors.blue,
-      icon: Icon(Icons.search_outlined),
-      label: ("Search"),
-      activeIcon: Icon(Icons.search)
-    ),
-    const BottomNavigationBarItem(
-      //backgroundColor: Colors.green,
-      icon: Icon(Icons.star_outline),
-      activeIcon: Icon(Icons.star),
-      label: ("For You"),
-    ),
-    const BottomNavigationBarItem(
-      //backgroundColor: Colors.amber,
-      icon: Icon(Icons.account_circle_outlined),
-      activeIcon: Icon(Icons.account_circle),
-      label: ("Me"),
-    ),
-  ];
+  late List<BottomNavigationBarItem> bottomNavItems ;
+  @override
+  void initState() {
+    super.initState();
+
+  }
 
   final pages = [const HomePage(), const ForYouPage(), const MePage(), ];
   int currentIndex=1;
@@ -47,8 +33,28 @@ class _MainState extends State<Main> {
 
   @override
   Widget build(BuildContext context) {
+    bottomNavItems= [
+      BottomNavigationBarItem(
+        //backgroundColor: Colors.blue,
+          icon: Icon(Icons.search_outlined),
+          label: (AppLocalizations.of(context)!.search),
+          activeIcon: Icon(Icons.search)
+      ),
+      BottomNavigationBarItem(
+        //backgroundColor: Colors.green,
+        icon: Icon(Icons.star_outline),
+        activeIcon: Icon(Icons.star),
+        label: (AppLocalizations.of(context)!.for_You),
+      ),
+      BottomNavigationBarItem(
+        //backgroundColor: Colors.amber,
+        icon: Icon(Icons.account_circle_outlined),
+        activeIcon: Icon(Icons.account_circle),
+        label: (AppLocalizations.of(context)!.me),
+      ),
+    ];
     return Scaffold(
-      appBar: AppBar(title: const Text("Shared Resources"),),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.shared_resources),),
       bottomNavigationBar: BottomNavigationBar(
         items: bottomNavItems,
         currentIndex: currentIndex,

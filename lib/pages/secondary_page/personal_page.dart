@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_resource/lib/network.dart';
 import 'package:shared_resource/lib/ui.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PersonalPage extends StatefulWidget {
   final String account;
 
@@ -29,17 +29,18 @@ class _PersonalPageState extends State<PersonalPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.account}的个人主页"),
+        // title: Text("${widget.account}的个人主页"),
+        title: Text("${widget.account}"+AppLocalizations.of(context)!.personal_page),
       ),
       body: Scaffold(
         appBar: TabBar(
             controller: tabController,
-            tabs: const [Padding(
+            tabs:  [Padding(
               padding: EdgeInsets.all(14.0),
-              child: Text("Uploads"),
+              child: Text(AppLocalizations.of(context)!.uploads),
             ), Padding(
               padding: EdgeInsets.all(14.0),
-              child: Text("Comments"),
+              child: Text(AppLocalizations.of(context)!.comments),
             )]),
         body: TabBarView(
           controller: tabController,

@@ -5,7 +5,7 @@ import 'package:shared_resource/lib/ui.dart';
 import 'package:shared_resource/pages/secondary_page/personal_page.dart';
 import 'package:shared_resource/pages/secondary_page/updates.dart';
 import 'package:shared_resource/pages/secondary_page/upload_my_file.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../main.dart';
 
 class MePage extends StatefulWidget {
@@ -45,13 +45,13 @@ class _MePageState extends State<MePage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                buttonWithPadding("My Personal Page", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return PersonalPage(account: myAccount!,);}));}),
+                buttonWithPadding(AppLocalizations.of(context)!.my_p, (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return PersonalPage(account: myAccount!,);}));}),
                 //buttonWithPadding("My Comments", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return MyComments();}));}),
                 //buttonWithPadding("Test", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return TestPage();}));}),
-                buttonWithPadding("设置个性化推荐数据", (){showInterestEditPopup(context);}),
-                buttonWithPadding("上传我的资料", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return const UploadMyFilePage();}));}),
-                buttonWithPadding("Check Update", (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return const CheckUpdates();}));}),
-                redButtonWithPadding("Logout", (){
+                buttonWithPadding(AppLocalizations.of(context)!.p_d, (){showInterestEditPopup(context);}),
+                buttonWithPadding(AppLocalizations.of(context)!.m_d, (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return const UploadMyFilePage();}));}),
+                buttonWithPadding(AppLocalizations.of(context)!.check_update, (){Navigator.of(context).push(CupertinoPageRoute(builder: (builder){return const CheckUpdates();}));}),
+                redButtonWithPadding(AppLocalizations.of(context)!.logout, (){
                   myAccount=null;
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder){
                     return const LoginPage();
@@ -85,24 +85,24 @@ void showInterestEditPopup(BuildContext context){
   final TextEditingController gradesController=TextEditingController(text: grades0?.toString());
   showDialog(context: context, builder: (builder){
       return AlertDialog(
-        title: const Text("设置个性化推荐数据"),
+        title: Text(AppLocalizations.of(context)!.p_d),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextField(controller: interestController,decoration: const InputDecoration(icon: Icon(Icons.text_fields),labelText: "兴趣方向"),),
-            TextField(controller: gradesController,decoration: const InputDecoration(icon: Icon(Icons.text_increase),labelText: "这方面的成绩（0-100）"))
+            TextField(controller: interestController,decoration: InputDecoration(icon: Icon(Icons.text_fields),labelText: AppLocalizations.of(context)!.interest),),
+            TextField(controller: gradesController,decoration: InputDecoration(icon: Icon(Icons.text_increase),labelText: AppLocalizations.of(context)!.grade))
           ],
         ),
         actions:  <Widget>[
           TextButton(
-            child: const Text('取消'),
+            child:  Text(AppLocalizations.of(context)!.cancel),
             onPressed: () {
               Navigator.of(context).pop(); // 关闭对话框
             },
           ),
           TextButton(
-            child: const Text('确认'),
+            child: Text(AppLocalizations.of(context)!.ensure),
             onPressed: () async{
               try{
                 if(interestController.text.isEmpty){
@@ -111,7 +111,7 @@ void showInterestEditPopup(BuildContext context){
                 preferences.setInt(GRADES_Str, int.parse(gradesController.text));
                 preferences.setString(INTEREST_Str, interestController.text);
               }catch(e){
-                await showInfoDialog(context: builder,title: "Error",content: "输入有误");
+                await showInfoDialog(context: builder,title: AppLocalizations.of(context)!.error,content: AppLocalizations.of(context)!.w_i);
               }
               Navigator.of(context).pop(); // 关闭对话框
             },

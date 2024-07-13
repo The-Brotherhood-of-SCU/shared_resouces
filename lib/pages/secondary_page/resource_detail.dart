@@ -13,7 +13,7 @@ import 'package:shared_resource/lib/network.dart';
 import 'package:shared_resource/lib/ui.dart';
 import 'package:shared_resource/pages/secondary_page/personal_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class FileDetailPage extends StatefulWidget {
   final FileDetail fileDetail;
   const FileDetailPage(this.fileDetail,{super.key});
@@ -38,7 +38,7 @@ class _FileDetailPageState extends State<FileDetailPage> {
         fileDetail = result;
       });
     }catch(e){
-      await showInfoDialog(context: context,title: "Error",content: e.toString());
+      await showInfoDialog(context: context,title: AppLocalizations.of(context)!.error,content: e.toString());
     }
   }
   static final DateFormat dateFormat = DateFormat("y-M-d");
@@ -74,25 +74,25 @@ class _FileDetailPageState extends State<FileDetailPage> {
                   ),
                 ),
               ),
-              commonCard(context: context, title: "Details",
+              commonCard(context: context, title: AppLocalizations.of(context)!.details,
                   child: Text(fileDetail.details)
               ),
-              commonCard(context: context, title: "Basic Info",
+              commonCard(context: context, title: AppLocalizations.of(context)!.b_i,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("课程名：${fileDetail.kcm??"None"}"),
-                      Text("课程号：${fileDetail.kch??"None"}"),
-                      Text("文件大小：${getFileSizeStr(fileDetail.fileSize)}"),
-                      Text("上传日期${dateFormat.format(fileDetail.uploadTime)}"),
+                      Text("${AppLocalizations.of(context)!.name}：${fileDetail.kcm??"None"}"),
+                      Text("${AppLocalizations.of(context)!.id}：${fileDetail.kch??"None"}"),
+                      Text("${AppLocalizations.of(context)!.f}：${getFileSizeStr(fileDetail.fileSize)}"),
+                      Text("${AppLocalizations.of(context)!.date}${dateFormat.format(fileDetail.uploadTime)}"),
                     ],
                   )
               ),
-              commonCard(context: context, title: "Rating", child:
+              commonCard(context: context, title: AppLocalizations.of(context)!.rating, child:
                   Center(
                     child: Builder(builder: (builder){
                       if(fileDetail.rating<0){
-                        return const Text("暂无评分");
+                        return  Text(AppLocalizations.of(context)!.n_r);
                       }else{
                         return  Center(
                           child: Row(
@@ -105,7 +105,7 @@ class _FileDetailPageState extends State<FileDetailPage> {
                                     emptyColor: Colors.grey.withAlpha(88)),
                                 tail: Column(
                                   children: <Widget>[
-                                    const Text("评分"),
+                                     Text(AppLocalizations.of(context)!.rating),
                                     Text(fileDetail.rating.toStringAsFixed(2)),
 
                                   ],
@@ -113,7 +113,7 @@ class _FileDetailPageState extends State<FileDetailPage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(10.0,0,0,0),
-                                child: Text("共${fileDetail.ratingNumber}人评分"),
+                                child: Text("${fileDetail.ratingNumber}"+AppLocalizations.of(context)!.lc),
                               )
                             ],
 
@@ -122,7 +122,7 @@ class _FileDetailPageState extends State<FileDetailPage> {
                       }
                     }),
                   ),
-                icon: const Text("点击查看评论"),
+                icon:  Text(AppLocalizations.of(context)!.l_c),
                 onTap: (context){
                   Navigator.of(context).push(CupertinoModalPopupRoute(builder: (builder){
                     return _Comments("/comment/${fileDetail.filePointer}",fileDetail,onComment: refresh,);
@@ -131,12 +131,12 @@ class _FileDetailPageState extends State<FileDetailPage> {
 
               ),
 
-              commonCard(context: context, title: "Uploader",
+              commonCard(context: context, title: AppLocalizations.of(context)!.uploader,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("上传者：${fileDetail.uploader??"unknown"}"),
-                      Text("文件指针：${fileDetail.filePointer}"),
+                      Text(AppLocalizations.of(context)!.uploader+"：${fileDetail.uploader??"unknown"}"),
+                      Text(AppLocalizations.of(context)!.f_p+"：${fileDetail.filePointer}"),
                     ],
                   ),
                 onTap: (c){
@@ -150,8 +150,8 @@ class _FileDetailPageState extends State<FileDetailPage> {
                 }
               ),
               commonCard(context: context,
-                  title: "Download",
-                  child: const Text("Tap to download"),
+                  title: AppLocalizations.of(context)!.download,
+                  child:  Text(AppLocalizations.of(context)!.tap),
                   icon: const Icon(Icons.download),
                   onTap: (context){
                     launchUrl(Uri.parse("$base/file/${fileDetail.filePointer}"));
@@ -185,26 +185,26 @@ class _CommentsState extends State<_Comments> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Comments"),),
+      appBar: AppBar(title:  Text(AppLocalizations.of(context)!.comments),),
       body: LoadCommentPage(widget.url),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
           showDialog(context: context,barrierDismissible:true,builder: (builder){
             return AlertDialog(
-              title: const Text("Comment"),
+              title:  Text(AppLocalizations.of(context)!.comments),
               content: _CommentComponent(rating,(v){rating=v;},text,(v){text=v;}),
               actions: [
                 TextButton(onPressed: (){
                   Navigator.of(builder).pop();
-                }, child: const Text("Cancel")),
+                }, child: Text(AppLocalizations.of(context)!.cancel)),
                 TextButton(onPressed: ()async{
                   //send rating
                   await httpPost("/rate?file_pointer=${widget.fileDetail.filePointer}&rating=$rating");
 
                   if(text.trim().isNotEmpty){
                     if (kDebugMode) {
-                      print("comment");
+                      print(AppLocalizations.of(context)!.comments);
                     }
                     var parameter={
                       "account":myAccount,
@@ -221,7 +221,7 @@ class _CommentsState extends State<_Comments> {
                   }
                   refresh();
 
-                }, child: const Text("Comment"))
+                }, child:  Text(AppLocalizations.of(context)!.comments))
               ],
             );
           });
@@ -275,7 +275,7 @@ class _CommentComponentState extends State<_CommentComponent> {
         ),
         TextField(
           controller: controller,
-          decoration: const InputDecoration(icon: Icon(Icons.brush),hintText: "写评论"),
+          decoration: InputDecoration(icon: Icon(Icons.brush),hintText: AppLocalizations.of(context)!.haha),
           onChanged: widget.textSetter,
         )
 

@@ -68,13 +68,15 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const Text("   "+"Login",textScaler: TextScaler.linear(1.5),),
+              // const Text("   "+"Login",textScaler: TextScaler.linear(1.5),),
+              Text(AppLocalizations.of(context)!.login,textScaler: TextScaler.linear(1.5),),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(controller: controller,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                       icon: Icon(Icons.account_circle),
-                      labelText: "Account"
+                      // labelText: "Account"
+                      labelText:AppLocalizations.of(context)!.account
                   ),
                 ),
               ),
@@ -82,14 +84,14 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.all(8.0),
                 child:ElevatedButton(onPressed: ()async{
                   if(controller.text.trim().isEmpty){
-                    showInfoDialog(context: context,title: "Warn",content: "不能为空");
+                    showInfoDialog(context: context,title: AppLocalizations.of(context)!.warn,content: AppLocalizations.of(context)!.cannot_be_empty);
                     return;
                   }
                   Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder){
                     myAccount=controller.text;
                     return Main();
                   }));
-                }, child: const Text("Login"),),
+                }, child: Text(AppLocalizations.of(context)!.login1),),
               ),
 
 

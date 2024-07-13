@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_resource/lib/ui.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             Padding(
               padding: const EdgeInsets.all(13.0),
               child: SearchBar(controller: controller,
-                hintText: "Search ...",
+                hintText: AppLocalizations.of(context)!.search,
                 trailing: [IconButton(icon: const Icon(Icons.search),onPressed: (){
                   setState(() {
                     url=controller.text;
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       
               ),
             ),
-            url==null?const Center(child: Text("键入关键词以搜索"),):
+            url==null? Center(child: Text(AppLocalizations.of(context)!.s_k),):
             LoadFilesPage("/search/${Uri.encodeFull(url!)}"),
           ],
         ),
