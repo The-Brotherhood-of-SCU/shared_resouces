@@ -155,11 +155,46 @@ class _FileDetailPageState extends State<FileDetailPage> {
                   icon: const Icon(Icons.download),
                   onTap: (context){
                     launchUrl(Uri.parse("$base/file/${fileDetail.filePointer}"));
-                  })
+                  }),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(child: TextButton(child: Text("Delete",style: TextStyle(color: Colors.red),), onPressed: ()async {
+                  var result=await showDeleteConfirmDialog1();
+                  if(result==true){
+                    httpGet("/delete/${fileDetail.filePointer}");
+                    Navigator.of(context).pop();
+                  }
+
+                },),),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+  Future<bool?> showDeleteConfirmDialog1() {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("提示"),
+          content: Text("您确定要删除当前文件吗?"),
+          actions: <Widget>[
+            TextButton(
+              child: Text(AppLocalizations.of(context)!.cancel),
+              onPressed: () => Navigator.of(context).pop(), // 关闭对话框
+            ),
+            TextButton(
+              child: Text("DELETE"),
+              onPressed: () {
+                //关闭对话框并返回true
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
