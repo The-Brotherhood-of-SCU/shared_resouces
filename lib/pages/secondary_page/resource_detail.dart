@@ -113,7 +113,7 @@ class _FileDetailPageState extends State<FileDetailPage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(10.0,0,0,0),
-                                child: Text("${fileDetail.ratingNumber}"+AppLocalizations.of(context)!.lc),
+                                child: Text("${fileDetail.ratingNumber} "+AppLocalizations.of(context)!.lc),
                               )
                             ],
 

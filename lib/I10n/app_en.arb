@@ -36,7 +36,7 @@
   "my_p":"My Personal Page",
   "p_d":"Set personalized recommendation data",
   "m_d":"Upload my profile",
-  "Logout":"Logout",
+  "logout":"Logout",
   "interest":"Direction of interest",
   "grade":"Score in this area (0-100)",
   "cancel":"Cancel",
@@ -45,7 +45,7 @@
   "s_k":"Type a keyword to search",
   "search":"Search",
   "for_You":"For you",
-  "Me":"Me",
+  "me":"Me",
   "shared_Resources":"Shared Resources",
   "details":"Details",
   "b_i":"Basic Info",
@@ -60,6 +60,6 @@
   "uploader":"Uploader",
   "f_p":"File Pointer",
   "download":"Download",
-  "tap":"Tap tp Download",
+  "tap":"Tap to Download",
   "haha":"Write Comments"
 }
