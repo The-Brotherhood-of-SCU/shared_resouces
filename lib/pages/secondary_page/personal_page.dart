@@ -42,10 +42,11 @@ class _PersonalPageState extends State<PersonalPage>
               padding: EdgeInsets.all(14.0),
               child: Text(AppLocalizations.of(context)!.comments),
             )]),
-        body: TabBarView(
-          controller: tabController,
-          children: [UserUploads(widget.account), UserComments(widget.account)],
-        ),
+        body:  TabBarView(
+            controller: tabController,
+            children: [SingleChildScrollView(child: UserUploads(widget.account)), UserComments(widget.account)],
+          ),
+
       ),
     );
   }

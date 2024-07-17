@@ -17,7 +17,7 @@ class _ForYouPageState extends State<ForYouPage> {
     if(grades==null||interest==null){
       return  Center(child: Text(AppLocalizations.of(context)!.set_p));
     }else{
-      return LoadFilesPage("/recommend?keyword=${Uri.encodeFull(interest)}&grades=${grades/100}");
+      return SingleChildScrollView(child: LoadFilesPage("/recommend?keyword=${Uri.encodeFull(interest)}&grades=${grades/100}"));
     }
 
   }
